@@ -1,0 +1,761 @@
+//=========================
+//Foundation
+//=========================
+@import '../node_modules/reset-css/sass/_reset.scss';
+$header-height:60px;
+$main-width:90%;
+$sp-main-width:90%;
+$contenr-padding:40px 15px;
+$contenr-padding-sp:40px 5px;
+$sp-contenr-padding:40px 0px;
+$header_bgColor:darkcyan;
+$header_hoverColor:rgb(33, 207, 199);
+$profileImg_width:100px;
+$profileImg_height:100px;
+
+$padding_s:5px;
+$margin_s:5px;
+$margin_m:20px;
+
+$mail_form-width:350px;
+$text_default:13px;
+$text_default-line_heigt:20px;
+$line_heigt-m:25px;
+$pulldown_width:340px;
+
+$imgBox_width:370px;
+$imgBox_height:180px;
+$imagebox_content-height:40px;
+$sns_iconImg-height:35px;
+
+$break-point_tb:980px;
+$break-point_sp:640px;
+
+//タブレットのみ対応
+@mixin tablet(){
+    @media screen and (min-width:$break-point_sp) and (max-width:$break-point_tb){
+        @content;
+    } 
+}
+
+//タブレットとスマホ両方に適用
+@mixin tablet_smartPhone(){
+    @media screen and (max-width:$break-point_tb){
+        @content;
+    } 
+}
+
+//スマホのみ適用
+@mixin smartPhone(){
+    @media screen and (max-width:$break-point_sp){
+        @content;
+    } 
+}
+
+@mixin imgeSize($width,$height){
+    width: $width;
+    height: $height;
+    min-width: $width;
+    min-height: $height;
+}
+
+@mixin notAllowColor(){
+    background-color:rgb(168, 168, 168);
+    color:rgb(102, 102, 102);
+}
+*{
+    box-sizing: border-box;
+}
+//標準フォントの変更
+body{
+    font-family: 'Roboto', sans-serif;
+
+    &.is_mordal{
+        overflow-y: hidden;
+        padding-right: 15px;
+    }
+}
+//目印用あとで消す
+
+
+//=========================
+//Layout
+//=========================
+#l-header{
+    top:0px;
+    width:100%;
+    height:$header-height;
+    position:fixed;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:center;
+    z-index: 99;
+
+    &.is_mordal{
+        //モーダルの時に消えたスクロールバーの幅を補填する
+        padding-right: 15px;
+    }
+
+    @include tablet_smartPhone(){
+        min-height: 60px;
+        height: auto;
+        flex-wrap: nowrap;
+        flex-direction: column;
+    }
+}
+
+#l-footer{
+    width:100%;
+    height:$header-height;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.l-header-content{
+    width:$main-width;
+    margin:0 auto;
+}
+
+.l-main{
+    margin-top:$header-height;
+    display:flex;
+    flex-direction:column;
+}
+
+.l-compornet-conteiner{
+    width:$main-width;
+    margin:0 auto;
+    height:100%;
+}
+
+
+.l-modal_window{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index:100;
+    display:none;
+}
+
+//=========================
+//Object
+//=========================
+
+//=============
+//  Compornent
+.c-header_list{
+    height: 100%;
+    width:105px;
+    transition: all 0.8s;
+
+
+    &:hover{
+        cursor: pointer;
+        background-color: $header_hoverColor;
+        transition: background-color 0.4s;
+    }
+
+    @include tablet_smartPhone(){
+        width:100%;
+        border:none;
+        border-top: 1px dotted white;
+    }
+}
+
+.c-header_list_sp{
+    display: none;
+    margin: 10px auto;
+    font-size: 40px;
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    @include tablet_smartPhone(){
+        display: inline-block;
+
+        &.is-active_open{
+            color: white;
+        }
+    }
+}
+
+.c-visual_mes{
+    font-size:55px;
+
+    @include tablet_smartPhone(){
+        text-align: center;
+    }
+}
+
+.c-section_caption{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    padding:20px 0px;
+    font-size:35px;
+    font-weight: 500;
+
+    &:after,&:before{
+        content: '';
+        border-top:2px dotted black ;
+        display: inline;//IE用
+        flex-grow: 0.5;
+    }
+
+    &:after{
+        margin-left: 20px;
+    }
+
+    &:before{
+        margin-right: 20px;
+    }
+
+}
+
+
+
+
+.c-section_inner{
+    width:$main-width;
+    margin:0 auto;
+
+    @include tablet(){
+        width:$sp-main-width;
+    }
+
+    @include smartPhone(){
+        width:100%;
+    }
+}
+
+.c-profileimg{
+    @include imgeSize(100px,100px);
+    border-radius: 50%;
+    border:2px solid gray;
+}
+
+.c-squerImg{
+    @include imgeSize(300px,200px);
+    object-fit: cover;
+
+    @include smartPhone(){
+        width:100%;
+        min-width: 0px;
+    }
+}
+
+.c-textbox{
+    display: flex;
+    flex-direction: column;
+    width:340px;
+
+    @include tablet(){
+        width:70%;
+    }
+
+    @include smartPhone(){
+        width:100%;
+    }
+}
+
+.c-textbox_title{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.c-textbox_content{
+    line-height: $text_default-line_heigt;
+    margin-bottom: 20px;
+
+     &:last-child{
+        margin-bottom: 0px;
+     }
+     @extend #{'.c-textbox_content'};
+     
+     &_line-height-m{
+        @extend #{'.c-textbox_content'};
+        line-height: $line_heigt-m;
+     }
+}
+
+//プルダウンリストのキャプション設定
+.c-list_caption{
+    font-size: 20px;
+    font-weight: bold;
+    padding: $padding_s;
+    display: flex;
+    flex-wrap: wrap;
+
+    @include smartPhone(){
+        font-size: 15px;
+    }
+}
+
+//プルダウンリストの本文の設定
+.c-list_content{
+    display: none;
+    font-weight: normal;
+    line-height: $text_default-line_heigt;
+    font-size:$text_default;
+    padding: 5px;
+    margin-top: 5px;
+    width: 100%;
+    background: lightseagreen;
+    border-radius: 5px;
+    @include smartPhone(){
+        min-width: 0px;
+    }
+}
+
+.c-imagebox{
+    @include imgeSize($imgBox_width,$imgBox_height);
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 2px;
+    
+    @include smartPhone(){
+        width:100%;
+        min-width: 0px;
+        max-width: 370px;
+        background-size: cover;
+        background-position-x: 50%;
+    }
+
+        @extend #{'.c-imagebox'};
+        &_work1{
+            @extend #{'.c-imagebox'};
+            background-image: url("../img/TABI_PICTURE_sample.png");
+        }
+
+        &_work2{
+            @extend #{'.c-imagebox'};
+            background-image: url("../img/CITY_GAME_sample.png");
+        }
+}
+
+.c-imagebox_content{
+    width:100%;
+    height: $imagebox_content-height;
+    position: absolute ;
+    bottom:0;
+    display: flex;
+    align-items: center;
+    padding: $padding_s;
+    border-radius: 0px 0px 2px 2px;
+}
+
+.c-others_skill{
+    display: inline;
+}
+
+.c-shape_circle{
+    height: 50px;
+    width:150px ;
+}
+
+
+@for $i from 1 through 8 {
+    .c-skill_#{$i}{
+        font-size:50px;
+        margin-right: 15px;
+        transition: all 0.5s;
+
+        &:hover{
+            cursor: pointer;
+            transform: translateY(-7px);
+            color: red;
+            transition: all 0.5s;
+        }
+
+        &.is_selected{
+            color: red;
+            transform: translateY(-7px);
+        }
+
+        @include smartPhone(){
+            font-size:40px;
+        }
+    }
+}
+.c-skill_8{
+    margin-right: 0px;
+}
+
+.skill1{
+    box-shadow: 5px;
+}
+
+
+
+.c-modal_inner{
+    display: flex;
+    justify-content: center;
+    width: min-content;
+    margin: 70px auto;
+
+    @include smartPhone(){
+        margin: 70px 0px;
+        width:100%;
+    }
+}
+
+.c-close_modal{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    padding: 8px 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(0,0,0,1);
+    transition: all 0.5s;
+
+    &:hover{
+        cursor: pointer;
+        background: lightgray;
+        transition: all 0.5s;
+        border: 1px solid rgba(0,0,0,0);
+    }
+    
+}
+
+
+.c-skill_explanation{
+    display: none;
+    margin:0 auto;
+
+    &.first-guide{
+        display: block;
+    }
+}
+
+.c-pulldownList{
+    width:$pulldown_width;
+
+    @include smartPhone(){
+        width:100%;
+    }
+}
+
+.c-pulldownList ul{
+    background: darkcyan;
+    border-radius: 7px;
+}
+
+
+.c-link_list{
+    display: flex;
+}
+
+.c-contact_link{
+    text-align: center;
+}
+
+.c-sns_icons{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.c-section_info{
+    text-align: center;
+}
+
+.c-sns_icon-wantedly{
+    height: $sns_iconImg-height;
+}
+
+.c-sns_icon-gituhub{
+    height: $sns_iconImg-height;
+}
+
+
+
+.c-mail_forms{
+    display: flex;
+    flex-direction: column;
+}
+
+.c-sendform{
+    width: 100%;
+    font-size:15px;
+    height:40px;
+    padding:$padding_s;
+    border-radius: 2px;
+    border: 1px #bebcbc solid;
+    cursor: pointer;
+    @extend #{'.c-sendform'};
+
+
+    &_content{
+        @extend #{'.c-sendform'};
+        height:150px;
+
+        
+    }
+
+    &_send{
+        @extend #{'.c-sendform'};
+        width:($mail_form-width/2);
+        align-self: center;
+        transition:all 0.4s;
+
+        &.is_notAllowed{
+            cursor: not-allowed;
+            @include notAllowColor();
+            transition:all 0.4s;
+        }
+    }
+
+    &_send_mailSent{
+        @extend #{'.c-sendform'};
+        width:($mail_form-width/2);
+        align-self: center;
+        transition:all 0.4s;
+        background: darkcyan;
+        color: white;
+        cursor: none;
+    }
+
+    &.has-error{
+        background-color:rgba(255,0,0,0.3);
+        transition:all 0.5s;
+    }
+
+    &.has-success{
+        background-color:rgba(0,255,0,0.3);
+        transition:all 0.5s;
+    }
+}
+
+.c-err_mes{
+    color: red;
+    margin-bottom:2px;
+    height: 15px;
+    display: inline-block;
+}
+
+.c-box_cover{
+    opacity:1.0;
+    color: rgba(0,0,0,0);
+    text-align: center;
+    line-height:($imgBox_height)-($imagebox_content-height);
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s;
+    
+    &:hover{
+        display: block;
+        color: white;
+        background: rgba(0,0,0,0.7);
+        transition: all 0.5s;
+    }
+}
+
+//=============
+//  Project
+
+.p-header_content{
+    display: flex;
+    flex-wrap: wrap;
+    width:$main-width;
+    height: 100%;
+    margin: 0 auto;
+    justify-content: flex-end;
+    align-content: center;
+
+    @include tablet_smartPhone(){
+        width:100%;
+        height: 370px;
+        flex-wrap: nowrap;
+        flex-direction:column;
+        margin: 0px;
+        justify-content: center;
+        display:none;
+    }
+
+}
+
+.p-colsection{
+    padding:$contenr-padding;
+    min-height:400px;
+    @extend #{'.p-colsection'};
+    
+    &_Visual{
+        @extend #{'.p-colsection'};
+        display:flex;
+        justify-content: center;
+        align-items:center;
+        background-image: url('../img/headerImg.JPG');
+        background-size: cover;
+        background-position-y: 60%;
+        min-height:500px;
+    }
+
+    @include tablet_smartPhone(){
+        flex-direction: column;
+    }
+
+    @include smartPhone(){
+        padding:$contenr-padding;
+    }
+}
+
+.p-section_contents{
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:center;
+
+    &-contact{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+    }
+
+    @include tablet_smartPhone(){
+        margin:0 auto;
+        align-items: center;
+        width:100%;
+        padding:$sp-contenr-padding;
+        flex-direction: column;
+    }
+
+}
+
+.p-introduction{
+    align-self: flex-start;
+    display:flex;
+    flex-wrap:nowrap;
+    align-items: center;
+
+    @include tablet_smartPhone(){
+        align-self: center;
+        flex-direction: column;
+    }
+}
+
+.p-modal_work{
+    padding: 20px;
+    position: relative;
+    height: min-content;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+    display: none;
+
+    &.is_mordal_open{
+        display: flex;
+        align-items: center;
+    }
+
+    @include tablet_smartPhone(){
+        flex-direction: column;
+        padding: 45px;
+    }
+
+    @include smartPhone(){
+        flex-direction: column;
+        width: 100%;
+        padding: 43px 18px 20px 18px;
+    }
+}
+
+.p-modal_work .c-textbox{
+    @include tablet_smartPhone(){
+        width:100%;
+    }
+}
+
+.workIntoduction{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+
+.p-skill_guides{
+    display: flex;
+    justify-content: center;
+
+    @include tablet_smartPhone(){
+        flex-wrap: wrap;
+    }
+}
+
+.p-mail_guide{
+    width:$mail_form-width;
+
+    @include smartPhone(){
+        width:100%;
+        max-width:$mail_form-width;
+    }
+}
+
+
+//=============
+//  Utility
+.u-captionMargin{
+    margin-bottom:20px;
+}
+
+.u-content_centerize{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.u-jtfself-end{
+    justify-self: flex-end;
+}
+
+.u-mgn_left{
+    margin-left:auto;
+}
+
+.u-mgn-right_s{
+    margin-right:$margin_s ;
+}
+
+.u-mgn-right_m{
+    margin:0px $margin_m 0px 0px;
+}
+
+.u-mgn-bottom{
+    margin:0px 0px $margin_s*4 0px;
+}
+
+.u-text_center{
+    text-align: center;
+}
+
+.u-mgn-right_tablet-sp{
+    @include tablet_smartPhone(){
+        margin:0px $margin_m 0px 0px;
+    }
+}
+
+.u-mgn-bottom_tablet-sp{
+    @include tablet_smartPhone(){
+        margin:0px 0px $margin_s*4 0px;
+    }
+}
+
+.is-active_open{
+    display: inline-block;
+}
+
+//=============
+//  Theme
+.t-bg-cyan{
+    background: $header_bgColor;
+}
+
+.t-lightgray{
+    background-color: #fbfbfb;
+    box-shadow:0px 4px 0px 0px  rgba(192,192,192,0.3) inset;
+}
+
+.u-cursor_point:hover{
+    cursor: pointer;
+}
